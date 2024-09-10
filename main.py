@@ -1,6 +1,5 @@
 import pygame 
 from player import Player
-
 from constants import *
 
 def main():
@@ -13,14 +12,21 @@ def main():
 
     # Set up game display
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+    # Clock for managing frame rate
+    clock = pygame.time.Clock()
     
     # Create player object in center of the screen
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
+
+    # Create groups
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+
+    Player.containers = (updatable, drawable)
     player = Player(x, y)
 
-    # Clock for managing frame rate
-    clock = pygame.time.Clock()
     dt = 0
 
     running = True
@@ -32,13 +38,15 @@ def main():
                 running = False
 
         # Update the player's state
-        player.update(dt)
+        for obj in updatable:
+            obj.update(dt)
 
         # Fill the display with black
         screen.fill((0, 0, 0))
 
         # Draw the player
-        player.draw(screen)
+        for obj in drawable:
+            obj.draw(screen)
 
         # Update the display
         pygame.display.flip()
