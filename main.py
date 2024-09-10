@@ -15,6 +15,7 @@ def main():
 
     # Clock for managing frame rate
     clock = pygame.time.Clock()
+    dt = 0
 
     running = True
 
@@ -32,6 +33,8 @@ def main():
 
         # Limit frames to 60 fps
         clock.tick(60)
+        
+        dt = clock.tick(60) / 1000
 
     # Close pygame
     pygame.quit()
