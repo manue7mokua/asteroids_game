@@ -1,4 +1,5 @@
 import pygame 
+from player import Player
 
 from constants import *
 
@@ -12,6 +13,11 @@ def main():
 
     # Set up game display
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    
+    # Create player object in center of the screen
+    x = SCREEN_WIDTH / 2
+    y = SCREEN_HEIGHT / 2
+    player = Player(x, y)
 
     # Clock for managing frame rate
     clock = pygame.time.Clock()
@@ -25,8 +31,14 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
+        # Update the player's state
+        player.update(dt)
+
         # Fill the display with black
         screen.fill((0, 0, 0))
+
+        # Draw the player
+        player.draw(screen)
 
         # Update the display
         pygame.display.flip()
