@@ -11,3 +11,4 @@ class Asteroid(CircleShape):
     def update(self, dt):
         # Move asteroid based on velocity and delta time
         self.position += self.velocity * dt
+        
