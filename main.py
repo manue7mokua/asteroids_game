@@ -1,9 +1,10 @@
 import pygame 
 import sys
 from constants import *
-from player import Player, Shot
+from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+from shot import Shot
 
 def main():
     # Initialize pygame
@@ -29,9 +30,9 @@ def main():
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
     Shot.containers = (player_shots, updatable, drawable)
+    asteroid_field = AsteroidField()
 
     player = Player(x_starting_position, y_starting_position)
-    asteroid_field = AsteroidField()
 
     dt = 0
 
@@ -50,12 +51,18 @@ def main():
         for obj in updatable:
             obj.update(dt)
 
+
         # Check for collision between player and asteroids
         for asteroid in asteroids:
-            if player.check_collision(asteroid):
+            if asteroid.check_collision(player):
                 print(f"Player {player} just got hit by an asteroid {asteroid}.")
                 print("GAME OVER MATE!")
                 sys.exit()
+
+            for shot in player_shots:
+                if asteroid.check_collision(shot):
+                    shot.kill()
+                    asteroid.kill()
 
         # Fill the display with black
         screen.fill("black")
